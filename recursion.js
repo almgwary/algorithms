@@ -61,3 +61,71 @@ function recusivNumber(n) {
 }
 
 //console.log(recusivNumber(12345678900))
+
+
+// Given grid of positive numbers, start 0,0 and end at n,n . move only  to right and sown -  find path with sum of numbers is maximum.
+/*
+
+15
+24
+// 1 + 5 = 6
+
+542
+678
+189
+//5+6+7+8+9
+*/
+let grid = [[5,4,2],
+            [6,7,8],
+            [1,8,9]];
+function maxPath(x,y){
+    const n = 3 ; 
+    
+    let d= 0, r = 0;
+    //calculate d
+    if(y+1 < n) 
+       d = maxPath(x,y+1);
+    //calculate r
+    if(x+1 < n) 
+        r = maxPath(x+1,y);
+
+    return grid[x][y] + Math.max(d , r) ;     
+
+}
+
+// console.log(maxPath(0,0))
+
+// maze , you have grid of .,x,d,s where you can walk on  . and not x , find the minimum .s to reach d  and you starting from s
+// use backtracking and not revisit visited cell for a single path
+var maze = [
+    ['.','.','X','.','.'],
+    ['.','.','.','.','.'],
+    ['.','.','.','.','.'],
+    ['.','.','.','.','.'],
+    ['.','.','.','D','.']
+]
+const n2 = 5 ;
+function findeMazeD(x,y){
+
+    if( x >= n2 || x < 0 || y >= n2 || y < 0 || maze[x][y] === 'X'|| maze[x][y] === 'V') return 10000000 ;
+    if(maze[x][y]==='D') {
+        return 1 ;
+    } 
+    if(maze[x][y]=='.'){
+        maze[x][y]='V';
+    }
+    let resultD = (findeMazeD(x,y+1)) + 1 ; // down
+    let resultU = (findeMazeD(x,y-1)) + 1 ; // up
+    let resultL = (findeMazeD(x-1,y)) + 1 ; // left
+    let resultR = (findeMazeD(x+1,y)) + 1 ; // right
+    
+    if(maze[x][y]=='V'){
+        maze[x][y]='.';
+    }
+    return Math.min(resultD ,resultU ,resultL ,resultR ); 
+}
+
+console.log(findeMazeD(0,1))
+
+
+
